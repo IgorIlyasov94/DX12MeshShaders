@@ -16,11 +16,10 @@ namespace Graphics
 		void OnResize(uint32_t newWidth, uint32_t newHeight);
 		void OnSetFocus();
 		void OnLostFocus();
-
-		void FrameStart();
-		void FrameRender();
-
-		ID3D12GraphicsCommandList6* GetCommandList();
+		void OnDeviceLost();
+		
+		ID3D12GraphicsCommandList6* FrameStart();
+		void FrameEnd();
 
 	private:
 		DirectX12Renderer() = delete;
@@ -29,14 +28,17 @@ namespace Graphics
 		DirectX12Renderer& operator=(const DirectX12Renderer&) = delete;
 		DirectX12Renderer& operator=(DirectX12Renderer&&) = delete;
 
-		void Initialize(HWND& windowHandler, uint32_t initialWidth, uint32_t initialHeight, bool fullscreen);
+		void Initialize(uint32_t initialWidth, uint32_t initialHeight, bool fullscreen);
 		void CreateSwapChainBuffers(uint32_t initialWidth, uint32_t initialHeight);
+		void ReleaseResources();
 
+		void ResetSwapChainBuffers(uint32_t width, uint32_t height);
 		void PrepareNextFrame();
 		void WaitForGpu();
-		void SwitchFullscreenMode(bool toggleFullscreen);
+		void SwitchFullscreenMode(bool enableFullscreen);
 
 		static const uint32_t SWAP_CHAIN_BUFFER_COUNT = 2;
+		static const DXGI_FORMAT SWAP_CHAIN_FORMAT = DXGI_FORMAT_R10G10B10A2_UNORM;
 
 		ComPtr<ID3D12Device9> device;
 		ComPtr<ID3D12GraphicsCommandList6> commandList;
@@ -49,12 +51,17 @@ namespace Graphics
 
 		std::shared_ptr<Memory::ResourceManager> resourceManager;
 		Memory::ResourceId swapChainBuffers[SWAP_CHAIN_BUFFER_COUNT];
+		ComPtr<ID3D12Resource> swapChainResources[SWAP_CHAIN_BUFFER_COUNT];
 		D3D12_CPU_DESCRIPTOR_HANDLE swapChainCPUDescriptors[SWAP_CHAIN_BUFFER_COUNT];
 
 		HANDLE fenceEvent;
 
 		D3D12_VIEWPORT sceneViewport;
 		D3D12_RECT sceneScissorRect;
+
+		HWND _windowHandler;
+
+		bool isFullscreen;
 
 		uint32_t bufferIndex;
 		uint64_t fenceValues[SWAP_CHAIN_BUFFER_COUNT];

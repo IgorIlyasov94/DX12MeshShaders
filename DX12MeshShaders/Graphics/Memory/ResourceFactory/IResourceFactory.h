@@ -20,7 +20,8 @@ namespace Memory
 		RENDER_TARGET,
 		DEPTH_STENCIL,
 		RW_TEXTURE,
-		RW_BUFFER
+		RW_BUFFER,
+		SWAP_CHAIN
 	};
 
 	inline ResourceType operator|(ResourceType leftValue, ResourceType rightValue)
@@ -123,19 +124,43 @@ namespace Memory
 
 		}
 
+		ResourceData& operator=(ResourceData&& source) noexcept
+		{
+			std::swap(shaderResourceViewDesc, source.shaderResourceViewDesc);
+			std::swap(currentResourceState, source.currentResourceState);
+			std::swap(descriptorAllocation, source.descriptorAllocation);
+			std::swap(indicesCount, source.indicesCount);
+			std::swap(bufferAllocation, source.bufferAllocation);
+			std::swap(vertexBufferView, source.vertexBufferView);
+
+			return *this;
+		}
+
+		void Release()
+		{
+			shaderResourceViewDesc.reset();
+			currentResourceState = D3D12_RESOURCE_STATE_COMMON;
+			descriptorAllocation.reset();
+			shaderNonVisibleDescriptorAllocation.reset();
+			textureInfo.reset();
+			renderTargetDescriptorAllocation.reset();
+			bufferAllocation.reset();
+			vertexBufferView.reset();
+		}
+
 		std::unique_ptr<D3D12_SHADER_RESOURCE_VIEW_DESC> shaderResourceViewDesc;
 		D3D12_RESOURCE_STATES currentResourceState;
 
 		std::unique_ptr<DescriptorAllocation> descriptorAllocation;
 		std::unique_ptr<DescriptorAllocation> shaderNonVisibleDescriptorAllocation;
 		std::shared_ptr<Graphics::TextureInfo> textureInfo;
+		uint32_t indicesCount;
 
 		union
 		{
 			std::unique_ptr<DescriptorAllocation> renderTargetDescriptorAllocation;
 			std::unique_ptr<DescriptorAllocation> depthStencilDescriptorAllocation;
 			std::unique_ptr<DescriptorAllocation> unorderedDescriptorAllocation;
-			uint32_t indicesCount;
 		};
 
 		union
@@ -151,7 +176,7 @@ namespace Memory
 			std::unique_ptr<D3D12_CONSTANT_BUFFER_VIEW_DESC> constantBufferViewDesc;
 			std::unique_ptr<D3D12_RENDER_TARGET_VIEW_DESC> renderTargetViewDesc;
 			std::unique_ptr<D3D12_DEPTH_STENCIL_VIEW_DESC> depthStencilViewDesc;
-			std::shared_ptr<D3D12_SAMPLER_DESC> samplerDesc;
+			std::unique_ptr<D3D12_SAMPLER_DESC> samplerDesc;
 			std::unique_ptr<D3D12_UNORDERED_ACCESS_VIEW_DESC> unorderedAccessViewDesc;
 		};
 	};

@@ -1,16 +1,17 @@
 #pragma once
 
 #include "..\..\Includes.h"
-#include "ResourceFactory/VertexBufferFactory.h"
-#include "ResourceFactory/IndexBufferFactory.h"
-#include "ResourceFactory/ConstantBufferFactory.h"
-#include "ResourceFactory/TextureFactory.h"
-#include "ResourceFactory/BufferFactory.h"
-#include "ResourceFactory/SamplerFactory.h"
-#include "ResourceFactory/RenderTargetFactory.h"
-#include "ResourceFactory/DepthStencilFactory.h"
-#include "ResourceFactory/RWTextureFactory.h"
-#include "ResourceFactory/RWBufferFactory.h"
+#include "ResourceFactory\VertexBufferFactory.h"
+#include "ResourceFactory\IndexBufferFactory.h"
+#include "ResourceFactory\ConstantBufferFactory.h"
+#include "ResourceFactory\TextureFactory.h"
+#include "ResourceFactory\BufferFactory.h"
+#include "ResourceFactory\SamplerFactory.h"
+#include "ResourceFactory\RenderTargetFactory.h"
+#include "ResourceFactory\DepthStencilFactory.h"
+#include "ResourceFactory\RWTextureFactory.h"
+#include "ResourceFactory\RWBufferFactory.h"
+#include "ResourceFactory\SwapChainBufferFactory.h"
 
 namespace Memory
 {
@@ -44,6 +45,7 @@ namespace Memory
 		~ResourceManager();
 
 		ResourceId CreateResource(ResourceType resourceType, const ResourceDesc& desc);
+		void ReleaseResource(const ResourceId& resourceId);
 		void UpdateResources();
 
 		const ResourceData& GetResourceData(const ResourceId& resourceId) const;
@@ -77,5 +79,7 @@ namespace Memory
 
 		std::vector<IResourceFactory*> resourceFactories;
 		std::vector<ResourceData> resources;
+
+		std::queue<size_t> freePlaceIndices;
 	};
 }

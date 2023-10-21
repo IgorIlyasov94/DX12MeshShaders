@@ -144,6 +144,7 @@
     <ClCompile Include="Graphics\Memory\ResourceFactory\RWBufferFactory.cpp" />
     <ClCompile Include="Graphics\Memory\ResourceFactory\RWTextureFactory.cpp" />
     <ClCompile Include="Graphics\Memory\ResourceFactory\SamplerFactory.cpp" />
+    <ClCompile Include="Graphics\Memory\ResourceFactory\SwapChainBufferFactory.cpp" />
     <ClCompile Include="Graphics\Memory\ResourceFactory\TextureFactory.cpp" />
     <ClCompile Include="Graphics\Memory\ResourceFactory\VertexBufferFactory.cpp" />
     <ClCompile Include="Graphics\Memory\ResourceManager.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Graphics\Memory\ResourceFactory\RWBufferFactory.h" />
     <ClInclude Include="Graphics\Memory\ResourceFactory\RWTextureFactory.h" />
     <ClInclude Include="Graphics\Memory\ResourceFactory\SamplerFactory.h" />
+    <ClInclude Include="Graphics\Memory\ResourceFactory\SwapChainBufferFactory.h" />
     <ClInclude Include="Graphics\Memory\ResourceFactory\TextureFactory.h" />
     <ClInclude Include="Graphics\Memory\ResourceFactory\VertexBufferFactory.h" />
     <ClInclude Include="Graphics\Memory\ResourceManager.h" />

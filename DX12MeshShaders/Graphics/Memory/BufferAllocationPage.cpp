@@ -1,6 +1,5 @@
 #include "BufferAllocationPage.h"
-#include "..\Utilities\DirectXUtility.h"
-#include "..\Utilities\CommonUtility.h"
+#include "..\DirectX12Helper.h"
 
 Memory::BufferAllocation::BufferAllocation(BufferAllocation&& source) noexcept
 	: cpuAddress(std::exchange(source.cpuAddress, nullptr)),
@@ -18,10 +17,10 @@ Memory::BufferAllocationPage::BufferAllocationPage(ID3D12Device* device, D3D12_H
 	currentGPUAddress(D3D12_GPU_VIRTUAL_ADDRESS(0))
 {
 	D3D12_HEAP_PROPERTIES heapProperties;
-	Utilities::DirectXUtility::SetupHeapProperties(heapProperties, heapType);
+	Graphics::DirectX12Helper::SetupHeapProperties(heapProperties, heapType);
 
 	D3D12_RESOURCE_DESC resourceDesc;
-	Utilities::DirectXUtility::SetupResourceBufferDesc(resourceDesc, _pageSize, resourceFlags);
+	Graphics::DirectX12Helper::SetupResourceBufferDesc(resourceDesc, _pageSize, resourceFlags);
 
 	D3D12_RESOURCE_STATES resourceState;
 
@@ -61,8 +60,8 @@ void Memory::BufferAllocationPage::Allocate(uint64_t _size, uint64_t alignment, 
 	if (!HasSpace(_size, alignment))
 		throw std::exception("BufferAllocationPage::Allocate: Bad allocation");
 
-	auto alignedSize = Utilities::CommonUtility::AlignSize(_size, alignment);
-	offset = Utilities::CommonUtility::AlignSize(offset, alignment);
+	auto alignedSize = Common::CommonUtility::AlignSize(_size, alignment);
+	offset = Common::CommonUtility::AlignSize(offset, alignment);
 
 	allocation.cpuAddress = currentCPUAddress + offset;
 	allocation.gpuAddress = currentGPUAddress + offset;
@@ -75,8 +74,8 @@ void Memory::BufferAllocationPage::Allocate(uint64_t _size, uint64_t alignment, 
 
 bool Memory::BufferAllocationPage::HasSpace(uint64_t _size, uint64_t alignment) const noexcept
 {
-	auto alignedSize = Utilities::CommonUtility::AlignSize(_size, alignment);
-	auto alignedOffset = Utilities::CommonUtility::AlignSize(offset, alignment);
+	auto alignedSize = Common::CommonUtility::AlignSize(_size, alignment);
+	auto alignedOffset = Common::CommonUtility::AlignSize(offset, alignment);
 
 	return alignedSize + alignedOffset <= pageSize;
 }

@@ -33,6 +33,7 @@ Memory::ResourceManager::ResourceManager(ID3D12Device9* _device)
 	resourceFactories.push_back(new DepthStencilFactory(device, textureAllocator, descriptorAllocator));
 	resourceFactories.push_back(new RWTextureFactory(device, textureAllocator, descriptorAllocator));
 	resourceFactories.push_back(new RWBufferFactory(device, bufferAllocator, descriptorAllocator));
+	resourceFactories.push_back(new SwapChainBufferFactory(device, descriptorAllocator));
 }
 
 Memory::ResourceManager::~ResourceManager()
@@ -42,11 +43,32 @@ Memory::ResourceManager::~ResourceManager()
 
 Memory::ResourceId Memory::ResourceManager::CreateResource(ResourceType resourceType, const ResourceDesc& desc)
 {
-	auto id = resources.size();
 	auto resourceTypeIndex = static_cast<uint8_t>(resourceType);
-	resources.push_back(resourceFactories[resourceTypeIndex]->CreateResource(commandList, resourceType, desc));
+
+	size_t id;
+
+	if (freePlaceIndices.empty())
+	{
+		id = resources.size();
+		resources.push_back(resourceFactories[resourceTypeIndex]->CreateResource(commandList, resourceType, desc));
+	}
+	else
+	{
+		id = freePlaceIndices.front();
+		freePlaceIndices.pop();
+
+		resources[id] = resourceFactories[resourceTypeIndex]->CreateResource(commandList, resourceType, desc);
+	}
 
 	return { id , resourceType };
+}
+
+void Memory::ResourceManager::ReleaseResource(const ResourceId& resourceId)
+{
+	auto id = resourceId.GetId();
+
+	resources[id].Release();
+	freePlaceIndices.push(id);
 }
 
 void Memory::ResourceManager::UpdateResources()

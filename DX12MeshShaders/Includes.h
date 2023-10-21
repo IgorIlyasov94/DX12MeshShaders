@@ -31,7 +31,7 @@
 #include <stdexcept>
 #include <vector>
 #include <array>
-#include <deque>
+#include <queue>
 #include <list>
 #include <mutex>
 #include <set>

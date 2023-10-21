@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BufferAllocationPage.h"
+#include "..\DirectX12Helper.h"
 
 namespace Memory
 {
@@ -52,6 +53,6 @@ namespace Memory
 
 		BufferAllocationPagePool tempUploadPages;
 
-		static constexpr size_t pageSize = 10 * _MB;
+		static constexpr size_t pageSize = 10 * Graphics::_MB;
 	};
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "..\MainIncludes.h"
-#include "..\Utilities\CommonUtility.h"
+#include "..\..\Includes.h"
+#include "..\..\CommonUtility.h"
 
 namespace Memory
 {
