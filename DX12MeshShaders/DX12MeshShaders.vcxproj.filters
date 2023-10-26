@@ -33,9 +33,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DX12MeshShaders.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -97,6 +94,12 @@
       <Filter>Исходные файлы\Graphics\Memory\ResourceFactory</Filter>
     </ClCompile>
     <ClCompile Include="CommonUtility.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Memory\ResourceFactory\SwapChainBufferFactory.cpp">
+      <Filter>Исходные файлы\Graphics\Memory\ResourceFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12MeshShaders.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="CommonUtility.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Memory\ResourceFactory\SwapChainBufferFactory.h">
+      <Filter>Файлы заголовков\Graphics\Memory\ResourceFactory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

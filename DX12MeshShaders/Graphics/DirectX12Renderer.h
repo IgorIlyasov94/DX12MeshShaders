@@ -21,6 +21,8 @@ namespace Graphics
 		ID3D12GraphicsCommandList6* FrameStart();
 		void FrameEnd();
 
+		void SwitchFullscreenMode(bool enableFullscreen);
+
 	private:
 		DirectX12Renderer() = delete;
 		DirectX12Renderer(const DirectX12Renderer&) = delete;
@@ -35,8 +37,7 @@ namespace Graphics
 		void ResetSwapChainBuffers(uint32_t width, uint32_t height);
 		void PrepareNextFrame();
 		void WaitForGpu();
-		void SwitchFullscreenMode(bool enableFullscreen);
-
+		
 		static const uint32_t SWAP_CHAIN_BUFFER_COUNT = 2;
 		static const DXGI_FORMAT SWAP_CHAIN_FORMAT = DXGI_FORMAT_R10G10B10A2_UNORM;
 

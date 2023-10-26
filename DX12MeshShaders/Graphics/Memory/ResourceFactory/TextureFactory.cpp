@@ -1,4 +1,5 @@
 #include "TextureFactory.h"
+#include "..\..\DirectX12Helper.h"
 
 Memory::TextureFactory::TextureFactory(ID3D12Device8* device, std::weak_ptr<TextureAllocator> textureAllocator,
 	std::weak_ptr<DescriptorAllocator> descriptorAllocator)
@@ -39,13 +40,13 @@ Memory::ResourceData Memory::TextureFactory::CreateResource(ComPtr<ID3D12Graphic
 		TextureAllocation uploadTextureAllocation{};
 		tempTextureAllocator->Allocate(_device, desc.resourceFlags, &clearValue, *desc.textureInfo, uploadTextureAllocation);
 
-		Utilities::DirectXUtility::SetResourceBarrier(commandList.Get(), textureAllocation.textureResource,
+		Graphics::DirectX12Helper::SetResourceBarrier(commandList.Get(), textureAllocation.textureResource,
 			D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
 
 		UploadTexture(commandList.Get(), uploadTextureAllocation.textureResource, textureAllocation.textureResource, *desc.textureInfo,
 			desc.data, uploadTextureAllocation.cpuAddress);
 
-		Utilities::DirectXUtility::SetResourceBarrier(commandList.Get(), textureAllocation.textureResource,
+		Graphics::DirectX12Helper::SetResourceBarrier(commandList.Get(), textureAllocation.textureResource,
 			D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COMMON);
 	}
 	else
@@ -68,7 +69,7 @@ Memory::ResourceData Memory::TextureFactory::CreateResource(ComPtr<ID3D12Graphic
 	Memory::ResourceData resourceData{};
 
 	resourceData.shaderResourceViewDesc = std::make_unique<D3D12_SHADER_RESOURCE_VIEW_DESC>(std::move(shaderResourceViewDesc));
-	resourceData.textureInfo = std::forward<const std::shared_ptr<Utilities::TextureInfo>>(desc.textureInfo);
+	resourceData.textureInfo = std::forward<const std::shared_ptr<Graphics::TextureInfo>>(desc.textureInfo);
 	resourceData.currentResourceState = D3D12_RESOURCE_STATE_COMMON;
 	resourceData.descriptorAllocation = std::make_unique<DescriptorAllocation>(std::move(descriptorAllocation));
 	resourceData.textureAllocation = std::make_unique<TextureAllocation>(std::move(textureAllocation));
@@ -76,7 +77,7 @@ Memory::ResourceData Memory::TextureFactory::CreateResource(ComPtr<ID3D12Graphic
 	return resourceData;
 }
 
-D3D12_SHADER_RESOURCE_VIEW_DESC Memory::TextureFactory::SetSRVDesc(const Utilities::TextureInfo& textureInfo)
+D3D12_SHADER_RESOURCE_VIEW_DESC Memory::TextureFactory::SetSRVDesc(const Graphics::TextureInfo& textureInfo)
 {
 	D3D12_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc{};
 	shaderResourceViewDesc.Format = textureInfo.format;
@@ -111,7 +112,7 @@ D3D12_SHADER_RESOURCE_VIEW_DESC Memory::TextureFactory::SetSRVDesc(const Utiliti
 }
 
 void Memory::TextureFactory::UploadTexture(ID3D12GraphicsCommandList* commandList, ID3D12Resource* uploadBuffer, ID3D12Resource* targetTexture,
-	const Utilities::TextureInfo& textureInfo, void* data, uint8_t* uploadBufferCPUAddress)
+	const Graphics::TextureInfo& textureInfo, void* data, uint8_t* uploadBufferCPUAddress)
 {
 	uint32_t numSubresources = textureInfo.depth * textureInfo.mipLevels;
 
@@ -150,7 +151,7 @@ void Memory::TextureFactory::UploadTexture(ID3D12GraphicsCommandList* commandLis
 	}
 }
 
-void Memory::TextureFactory::CopyRawDataToSubresource(const Utilities::TextureInfo& srcTextureInfo, uint32_t numRows, uint16_t numSlices,
+void Memory::TextureFactory::CopyRawDataToSubresource(const Graphics::TextureInfo& srcTextureInfo, uint32_t numRows, uint16_t numSlices,
 	uint64_t destRowPitch, uint64_t destSlicePitch, uint64_t rowSizeInBytes, const uint8_t* srcAddress, uint8_t* destAddress)
 {
 	for (uint16_t sliceIndex = 0; sliceIndex < numSlices; sliceIndex++)

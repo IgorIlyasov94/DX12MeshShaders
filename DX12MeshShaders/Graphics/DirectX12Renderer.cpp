@@ -52,7 +52,7 @@ void Graphics::DirectX12Renderer::OnSetFocus()
 
 	const auto& bufferData = resourceManager->GetResourceData(swapChainBuffers[0]);
 
-	ResetSwapChainBuffers(bufferData.textureInfo->width, bufferData.textureInfo->height);
+	ResetSwapChainBuffers(static_cast<uint32_t>(bufferData.textureInfo->width), static_cast<uint32_t>(bufferData.textureInfo->height));
 }
 
 void Graphics::DirectX12Renderer::OnLostFocus()
@@ -66,7 +66,7 @@ void Graphics::DirectX12Renderer::OnLostFocus()
 
 	const auto& bufferData = resourceManager->GetResourceData(swapChainBuffers[0]);
 
-	ResetSwapChainBuffers(bufferData.textureInfo->width, bufferData.textureInfo->height);
+	ResetSwapChainBuffers(static_cast<uint32_t>(bufferData.textureInfo->width), static_cast<uint32_t>(bufferData.textureInfo->height));
 }
 
 void Graphics::DirectX12Renderer::OnDeviceLost()
@@ -76,7 +76,7 @@ void Graphics::DirectX12Renderer::OnDeviceLost()
 	auto height = bufferData.textureInfo->height;
 
 	ReleaseResources();
-	Initialize(width, height, isFullscreen);
+	Initialize(static_cast<uint32_t>(width), static_cast<uint32_t>(height), isFullscreen);
 }
 
 ID3D12GraphicsCommandList6* Graphics::DirectX12Renderer::FrameStart()
@@ -101,6 +101,24 @@ void Graphics::DirectX12Renderer::FrameEnd()
 	ThrowIfFailed(swapChain->Present(1, 0), "DirectX12Renderer::FrameRender: Frame not presented!");
 
 	PrepareNextFrame();
+}
+
+void Graphics::DirectX12Renderer::SwitchFullscreenMode(bool enableFullscreen)
+{
+	if (isFullscreen == enableFullscreen)
+		return;
+
+	ThrowIfFailed(swapChain->SetFullscreenState(enableFullscreen, nullptr),
+		"DirectX12Renderer::SwitchFullscreenMode: Fullscreen transition failed!");
+
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
+	swapChain->GetDesc1(&swapChainDesc);
+
+	ThrowIfFailed(swapChain->ResizeBuffers(SWAP_CHAIN_BUFFER_COUNT, swapChainDesc.Width,
+		swapChainDesc.Height, swapChainDesc.Format, swapChainDesc.Flags),
+		"DirectX12Renderer::SwitchFullscreenMode: Back buffers resizing error!");
+
+	isFullscreen = enableFullscreen;
 }
 
 void Graphics::DirectX12Renderer::Initialize(uint32_t initialWidth, uint32_t initialHeight, bool fullscreen)
@@ -257,22 +275,4 @@ void Graphics::DirectX12Renderer::WaitForGpu()
 	WaitForSingleObjectEx(fenceEvent, INFINITE, false);
 
 	fenceValues[bufferIndex]++;
-}
-
-void Graphics::DirectX12Renderer::SwitchFullscreenMode(bool enableFullscreen)
-{
-	if (isFullscreen == enableFullscreen)
-		return;
-
-	ThrowIfFailed(swapChain->SetFullscreenState(enableFullscreen, nullptr),
-		"DirectX12Renderer::SwitchFullscreenMode: Fullscreen transition failed!");
-
-	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
-	swapChain->GetDesc1(&swapChainDesc);
-
-	ThrowIfFailed(swapChain->ResizeBuffers(SWAP_CHAIN_BUFFER_COUNT, swapChainDesc.Width,
-		swapChainDesc.Height, swapChainDesc.Format, swapChainDesc.Flags),
-		"DirectX12Renderer::SwitchFullscreenMode: Back buffers resizing error!");
-	
-	isFullscreen = enableFullscreen;
 }

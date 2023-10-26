@@ -29,7 +29,8 @@ Memory::ResourceData Memory::SamplerFactory::CreateResource(ComPtr<ID3D12Graphic
 
 	Memory::ResourceData resourceData{};
 
-	resourceData.samplerDesc = desc.samplerDesc;
+	resourceData.samplerDesc = std::make_unique<D3D12_SAMPLER_DESC>();
+	*resourceData.samplerDesc = *desc.samplerDesc;
 	resourceData.descriptorAllocation = std::make_unique<Memory::DescriptorAllocation>(std::move(descriptorAllocation));
 
 	return resourceData;

@@ -2,6 +2,7 @@
 
 #include "..\..\Includes.h"
 #include "..\..\CommonUtility.h"
+#include "..\DirectX12Helper.h"
 
 namespace Memory
 {
@@ -23,7 +24,7 @@ namespace Memory
 	{
 	public:
 		BufferAllocationPage(ID3D12Device* device, D3D12_HEAP_TYPE _heapType,
-			D3D12_RESOURCE_FLAGS resourceFlags = D3D12_RESOURCE_FLAG_NONE, uint64_t _pageSize = 2 * _MB);
+			D3D12_RESOURCE_FLAGS resourceFlags = D3D12_RESOURCE_FLAG_NONE, uint64_t _pageSize = 2 * Graphics::_MB);
 		~BufferAllocationPage();
 
 		void Allocate(uint64_t _size, uint64_t alignment, BufferAllocation& allocation);
