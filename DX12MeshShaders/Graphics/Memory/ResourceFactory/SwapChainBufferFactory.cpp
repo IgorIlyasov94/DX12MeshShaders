@@ -1,6 +1,6 @@
 #include "SwapChainBufferFactory.h"
 
-Memory::SwapChainBufferFactory::SwapChainBufferFactory(ID3D12Device8* device, std::weak_ptr<DescriptorAllocator> descriptorAllocator)
+Memory::SwapChainBufferFactory::SwapChainBufferFactory(ID3D12Device* device, std::weak_ptr<DescriptorAllocator> descriptorAllocator)
 	: _device(device), _descriptorAllocator(descriptorAllocator)
 {
 

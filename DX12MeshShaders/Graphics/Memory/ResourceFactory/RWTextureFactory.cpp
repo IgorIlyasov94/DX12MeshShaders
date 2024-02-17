@@ -1,6 +1,6 @@
 #include "RWTextureFactory.h"
 
-Memory::RWTextureFactory::RWTextureFactory(ID3D12Device8* device, std::weak_ptr<TextureAllocator> textureAllocator,
+Memory::RWTextureFactory::RWTextureFactory(ID3D12Device* device, std::weak_ptr<TextureAllocator> textureAllocator,
 	std::weak_ptr<DescriptorAllocator> descriptorAllocator)
 	: _device(device), _textureAllocator(textureAllocator), _descriptorAllocator(descriptorAllocator)
 {

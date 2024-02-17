@@ -3,6 +3,44 @@
 Common::Application::Application(HINSTANCE instance, int cmdShow)
 	: _instance(instance), _cmdShow(cmdShow)
 {
+	
+}
+
+Common::Application::~Application()
+{
+
+}
+
+int Common::Application::Run()
+{
+	try
+	{
+		Initialize(_instance, _cmdShow);
+
+		MSG message{};
+
+		while (message.message != WM_QUIT)
+		{
+			PeekMessage(&message, nullptr, 0, 0, PM_REMOVE);
+
+			TranslateMessage(&message);
+			DispatchMessage(&message);
+		}
+
+		return static_cast<int>(message.wParam);
+	}
+	catch (const std::exception& e)
+	{
+		MessageBoxA(nullptr, e.what(), "Error", MB_ICONERROR | MB_DEFAULT_DESKTOP_ONLY);
+
+		renderer.reset();
+	}
+
+	return 0;
+}
+
+void Common::Application::Initialize(HINSTANCE instance, int cmdShow)
+{
 	WNDCLASSEX windowClass{};
 
 	auto windowClassName = L"Mesh Shaders";
@@ -35,18 +73,9 @@ Common::Application::Application(HINSTANCE instance, int cmdShow)
 	ShowCursor(true);
 
 	renderer = std::make_unique<Graphics::DirectX12Renderer>(windowHandler, initialWidth, initialHeight, isFullscreen);
-	
+	scene = std::make_unique<Scene>();
+
 	isFullscreen = false;
-}
-
-Common::Application::~Application()
-{
-
-}
-
-int Common::Application::Run()
-{
-	return 0;
 }
 
 LRESULT Common::Application::WindowProc(HWND windowHandler, UINT message, WPARAM wParam, LPARAM lParam)
@@ -74,7 +103,7 @@ LRESULT Common::Application::WindowProc(HWND windowHandler, UINT message, WPARAM
 		}
 		case WM_SYSKEYDOWN:
 		{
-			if ((wParam == VK_RETURN) && (lParam & (1 << 29)))
+			if ((wParam == VK_RETURN) && (lParam & (static_cast<int64_t>(1) << 29)))
 			{
 				if (renderer != nullptr)
 				{
@@ -93,9 +122,10 @@ LRESULT Common::Application::WindowProc(HWND windowHandler, UINT message, WPARAM
 		}
 		case WM_PAINT:
 		{
-			if (renderer != nullptr)
+			if (renderer != nullptr && scene != nullptr)
 			{
 				auto commandList = renderer->FrameStart();
+				scene->OnFrameRender(commandList);
 				renderer->FrameEnd();
 			}
 
@@ -149,4 +179,5 @@ LRESULT Common::Application::WindowProc(HWND windowHandler, UINT message, WPARAM
 }
 
 std::unique_ptr<Graphics::DirectX12Renderer> Common::Application::renderer = nullptr;
+std::unique_ptr<Common::Scene> Common::Application::scene = nullptr;
 bool Common::Application::isFullscreen = false;

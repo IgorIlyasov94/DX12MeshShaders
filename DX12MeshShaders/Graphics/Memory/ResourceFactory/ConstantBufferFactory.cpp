@@ -1,6 +1,6 @@
 #include "ConstantBufferFactory.h"
 
-Memory::ConstantBufferFactory::ConstantBufferFactory(ID3D12Device8* device, std::weak_ptr<BufferAllocator> bufferAllocator,
+Memory::ConstantBufferFactory::ConstantBufferFactory(ID3D12Device* device, std::weak_ptr<BufferAllocator> bufferAllocator,
 	std::weak_ptr<DescriptorAllocator> descriptorAllocator)
 	: _device(device), _bufferAllocator(bufferAllocator), _descriptorAllocator(descriptorAllocator)
 {

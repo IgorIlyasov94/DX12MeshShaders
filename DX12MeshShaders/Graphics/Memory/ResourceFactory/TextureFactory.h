@@ -7,7 +7,7 @@ namespace Memory
 	class TextureFactory : public IResourceFactory
 	{
 	public:
-		TextureFactory(ID3D12Device8* device, std::weak_ptr<TextureAllocator> textureAllocator,
+		TextureFactory(ID3D12Device* device, std::weak_ptr<TextureAllocator> textureAllocator,
 			std::weak_ptr<DescriptorAllocator> descriptorAllocator);
 
 		ResourceData CreateResource(ComPtr<ID3D12GraphicsCommandList> commandList, ResourceType type,
@@ -20,7 +20,7 @@ namespace Memory
 		void CopyRawDataToSubresource(const Graphics::TextureInfo& srcTextureInfo, uint32_t numRows, uint16_t numSlices,
 			uint64_t destRowPitch, uint64_t destSlicePitch, uint64_t rowSizeInBytes, const uint8_t* srcAddress, uint8_t* destAddress);
 
-		ID3D12Device8* _device;
+		ID3D12Device* _device;
 		std::weak_ptr<TextureAllocator> _textureAllocator;
 		std::weak_ptr<DescriptorAllocator> _descriptorAllocator;
 	};

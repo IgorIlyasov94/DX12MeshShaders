@@ -36,6 +36,7 @@
 #include <mutex>
 #include <set>
 #include <random>
+#include <limits>
 
 using namespace Microsoft::WRL;
 using namespace DirectX;

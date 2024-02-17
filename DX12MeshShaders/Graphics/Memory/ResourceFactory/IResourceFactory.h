@@ -108,8 +108,9 @@ namespace Memory
 	public:
 		ResourceData()
 			: shaderResourceViewDesc(nullptr), currentResourceState(D3D12_RESOURCE_STATE_COMMON),
-			descriptorAllocation(nullptr), indicesCount(0),
-			bufferAllocation(nullptr), vertexBufferView(nullptr)
+			descriptorAllocation(nullptr), shaderNonVisibleDescriptorAllocation(nullptr), indicesCount(0),
+			textureInfo(nullptr), renderTargetDescriptorAllocation(nullptr), bufferAllocation(nullptr),
+			vertexBufferView(nullptr)
 		{};
 		~ResourceData() {};
 
@@ -117,7 +118,10 @@ namespace Memory
 			: shaderResourceViewDesc(std::move(source.shaderResourceViewDesc)),
 			currentResourceState(std::exchange(source.currentResourceState, D3D12_RESOURCE_STATE_COMMON)),
 			descriptorAllocation(std::move(source.descriptorAllocation)),
+			shaderNonVisibleDescriptorAllocation(std::move(source.shaderNonVisibleDescriptorAllocation)),
+			textureInfo(std::move(source.textureInfo)),
 			indicesCount(std::exchange(source.indicesCount, 0U)),
+			renderTargetDescriptorAllocation(std::move(source.renderTargetDescriptorAllocation)),
 			bufferAllocation(std::move(source.bufferAllocation)),
 			vertexBufferView(std::move(source.vertexBufferView))
 		{

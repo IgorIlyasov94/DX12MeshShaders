@@ -1,6 +1,6 @@
 #include "IndexBufferFactory.h"
 
-Memory::IndexBufferFactory::IndexBufferFactory(ID3D12Device8* device, std::weak_ptr<BufferAllocator> bufferAllocator)
+Memory::IndexBufferFactory::IndexBufferFactory(ID3D12Device* device, std::weak_ptr<BufferAllocator> bufferAllocator)
 	: _device(device), _bufferAllocator(bufferAllocator)
 {
 

@@ -41,7 +41,7 @@ namespace Graphics
 		static const uint32_t SWAP_CHAIN_BUFFER_COUNT = 2;
 		static const DXGI_FORMAT SWAP_CHAIN_FORMAT = DXGI_FORMAT_R10G10B10A2_UNORM;
 
-		ComPtr<ID3D12Device9> device;
+		ComPtr<ID3D12Device2> device;
 		ComPtr<ID3D12GraphicsCommandList6> commandList;
 		ComPtr<ID3D12CommandQueue> commandQueue;
 		ComPtr<ID3D12CommandAllocator> commandAllocator[SWAP_CHAIN_BUFFER_COUNT];

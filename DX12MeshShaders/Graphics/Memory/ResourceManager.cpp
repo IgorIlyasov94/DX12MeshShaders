@@ -1,6 +1,6 @@
 #include "ResourceManager.h"
 
-Memory::ResourceManager::ResourceManager(ID3D12Device9* _device)
+Memory::ResourceManager::ResourceManager(ID3D12Device* _device)
 	: device(_device), fenceValue(0)
 {
 	Graphics::DirectX12Helper::CreateCommandQueue(device, &commandQueue);

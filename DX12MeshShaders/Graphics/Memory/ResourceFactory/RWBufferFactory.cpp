@@ -1,6 +1,6 @@
 #include "RWBufferFactory.h"
 
-Memory::RWBufferFactory::RWBufferFactory(ID3D12Device8* device, std::weak_ptr<BufferAllocator> bufferAllocator,
+Memory::RWBufferFactory::RWBufferFactory(ID3D12Device* device, std::weak_ptr<BufferAllocator> bufferAllocator,
 	std::weak_ptr<DescriptorAllocator> descriptorAllocator)
 	: _device(device), _bufferAllocator(bufferAllocator), _descriptorAllocator(descriptorAllocator)
 {

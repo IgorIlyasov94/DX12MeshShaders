@@ -132,6 +132,8 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="CommonUtility.cpp" />
     <ClCompile Include="DX12MeshShaders.cpp" />
+    <ClCompile Include="Graphics\Assets\AssetsLoader\OBJLoader.cpp" />
+    <ClCompile Include="Graphics\Assets\Mesh.cpp" />
     <ClCompile Include="Graphics\DirectX12Helper.cpp" />
     <ClCompile Include="Graphics\DirectX12Renderer.cpp" />
     <ClCompile Include="Graphics\Memory\BufferAllocationPage.cpp" />
@@ -152,10 +154,14 @@
     <ClCompile Include="Graphics\Memory\ResourceManager.cpp" />
     <ClCompile Include="Graphics\Memory\TextureAllocationPage.cpp" />
     <ClCompile Include="Graphics\Memory\TextureAllocator.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="CommonUtility.h" />
+    <ClInclude Include="Graphics\Assets\AssetsLoader\IMeshLoader.h" />
+    <ClInclude Include="Graphics\Assets\AssetsLoader\OBJLoader.h" />
+    <ClInclude Include="Graphics\Assets\Mesh.h" />
     <ClInclude Include="Graphics\DirectX12Helper.h" />
     <ClInclude Include="Graphics\DirectX12Renderer.h" />
     <ClInclude Include="Graphics\Memory\BufferAllocationPage.h" />
@@ -178,6 +184,38 @@
     <ClInclude Include="Graphics\Memory\TextureAllocationPage.h" />
     <ClInclude Include="Graphics\Memory\TextureAllocator.h" />
     <ClInclude Include="Includes.h" />
+    <ClInclude Include="Scene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\AmplificationShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Amplification</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.5</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Amplification</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.5</ShaderModel>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AssemblyCodeAndHex</AssemblerOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AssemblyCodeAndHex</AssemblerOutput>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)%(Filename).asm</AssemblerOutputFile>
+      <AssemblerOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)%(Filename).asm</AssemblerOutputFile>
+    </FxCompile>
+    <FxCompile Include="Shaders\MeshShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Mesh</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.5</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mesh</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.5</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Shaders\PixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.5</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.5</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Header.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

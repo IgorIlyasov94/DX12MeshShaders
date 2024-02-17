@@ -13,13 +13,13 @@ void Graphics::DirectX12Helper::CreateFactory(IDXGIFactory7** factory)
 		"DirectX12Helper::CreateFactory: Factory creating failed!");
 }
 
-void Graphics::DirectX12Helper::CreateDevice(IDXGIAdapter1* adapter, ID3D12Device9** device)
+void Graphics::DirectX12Helper::CreateDevice(IDXGIAdapter1* adapter, ID3D12Device** device)
 {
 	ThrowIfFailed(D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(device)),
-		"DirectX12Helper::CreateCommandQueue: Device creating failed!");
+		"DirectX12Helper::CreateDevice: Device creating failed!");
 }
 
-void Graphics::DirectX12Helper::CreateCommandQueue(ID3D12Device9* device, ID3D12CommandQueue** commandQueue)
+void Graphics::DirectX12Helper::CreateCommandQueue(ID3D12Device* device, ID3D12CommandQueue** commandQueue)
 {
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
 	commandQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
@@ -45,7 +45,7 @@ void Graphics::DirectX12Helper::CreateSwapChain(IDXGIFactory7* factory, ID3D12Co
 		"DirectX12Helper::CreateSwapChain: Swap Chain creating failed!");
 }
 
-void Graphics::DirectX12Helper::CreateDescriptorHeap(ID3D12Device9* device, uint32_t numDescriptors, D3D12_DESCRIPTOR_HEAP_FLAGS flags,
+void Graphics::DirectX12Helper::CreateDescriptorHeap(ID3D12Device* device, uint32_t numDescriptors, D3D12_DESCRIPTOR_HEAP_FLAGS flags,
 	D3D12_DESCRIPTOR_HEAP_TYPE type, ID3D12DescriptorHeap** descriptorHeap)
 {
 	D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc{};

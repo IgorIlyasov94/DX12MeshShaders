@@ -128,7 +128,10 @@ void Graphics::DirectX12Renderer::Initialize(uint32_t initialWidth, uint32_t ini
 	ComPtr<IDXGIAdapter4> adapter;
 	DirectX12Helper::GetHardwareAdapter(dxgiFactory.Get(), &adapter);
 
-	DirectX12Helper::CreateDevice(adapter.Get(), &device);
+	ComPtr<ID3D12Device> device0;
+	DirectX12Helper::CreateDevice(adapter.Get(), &device0);
+	ThrowIfFailed(device0.As(&device), "DirectX12Renderer::Initialize: Device conversion error!");
+
 	DirectX12Helper::CreateCommandQueue(device.Get(), &commandQueue);
 
 	ComPtr<IDXGISwapChain1> swapChain1;

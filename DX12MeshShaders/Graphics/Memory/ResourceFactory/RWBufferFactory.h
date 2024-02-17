@@ -7,14 +7,14 @@ namespace Memory
 	class RWBufferFactory : public IResourceFactory
 	{
 	public:
-		RWBufferFactory(ID3D12Device8* device, std::weak_ptr<BufferAllocator> textureAllocator,
+		RWBufferFactory(ID3D12Device* device, std::weak_ptr<BufferAllocator> textureAllocator,
 			std::weak_ptr<DescriptorAllocator> descriptorAllocator);
 
 		ResourceData CreateResource(ComPtr<ID3D12GraphicsCommandList> commandList, ResourceType type,
 			const ResourceDesc& desc) override final;
 
 	private:
-		ID3D12Device8* _device;
+		ID3D12Device* _device;
 		std::weak_ptr<BufferAllocator> _bufferAllocator;
 		std::weak_ptr<DescriptorAllocator> _descriptorAllocator;
 	};

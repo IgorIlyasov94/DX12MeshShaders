@@ -1,6 +1,6 @@
 #include "SamplerFactory.h"
 
-Memory::SamplerFactory::SamplerFactory(ID3D12Device8* device, std::weak_ptr<DescriptorAllocator> descriptorAllocator)
+Memory::SamplerFactory::SamplerFactory(ID3D12Device* device, std::weak_ptr<DescriptorAllocator> descriptorAllocator)
 	: _device(device), _descriptorAllocator(descriptorAllocator)
 {
 

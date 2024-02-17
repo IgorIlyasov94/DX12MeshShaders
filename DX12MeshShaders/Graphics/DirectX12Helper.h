@@ -4,22 +4,6 @@
 
 namespace Graphics
 {
-
-	using ScreenQuadVertex = struct
-	{
-		float3 position;
-		float2 texCoord;
-	};
-
-	using ShaderList = struct
-	{
-		D3D12_SHADER_BYTECODE vertexShader;
-		D3D12_SHADER_BYTECODE hullShader;
-		D3D12_SHADER_BYTECODE domainShader;
-		D3D12_SHADER_BYTECODE geometryShader;
-		D3D12_SHADER_BYTECODE pixelShader;
-	};
-
 	using TextureInfo = struct
 	{
 		uint64_t width;
@@ -31,32 +15,6 @@ namespace Graphics
 		DXGI_FORMAT format;
 		D3D12_RESOURCE_DIMENSION dimension;
 		D3D12_SRV_DIMENSION srvDimension;
-	};
-
-	using BoundingBox = struct
-	{
-		float3 minCornerPoint;
-		float3 maxCornerPoint;
-	};
-
-	using BoundingSphere = struct
-	{
-		float3 center;
-		float radius;
-	};
-
-	enum class UIHorizontalAlign
-	{
-		UI_ALIGN_LEFT,
-		UI_ALIGN_CENTER,
-		UI_ALIGN_RIGHT
-	};
-
-	enum class UIVerticalAlign
-	{
-		UI_ALIGN_TOP,
-		UI_ALIGN_MIDDLE,
-		UI_ALIGN_BOTTOM
 	};
 
 	static constexpr size_t _KB = 1024;
@@ -136,13 +94,13 @@ namespace Graphics
 		~DirectX12Helper();
 
 		static void CreateFactory(IDXGIFactory7** factory);
-		static void CreateDevice(IDXGIAdapter1* adapter, ID3D12Device9** device);
-		static void CreateCommandQueue(ID3D12Device9* device, ID3D12CommandQueue** commandQueue);
+		static void CreateDevice(IDXGIAdapter1* adapter, ID3D12Device** device);
+		static void CreateCommandQueue(ID3D12Device* device, ID3D12CommandQueue** commandQueue);
 
 		static void CreateSwapChain(IDXGIFactory7* factory, ID3D12CommandQueue* commandQueue, HWND& windowHandler,
 			const uint32_t buffersCount, const int32_t& resolutionX, const int32_t& resolutionY, IDXGISwapChain1** swapChain);
 
-		static void CreateDescriptorHeap(ID3D12Device9* device, uint32_t numDescriptors, D3D12_DESCRIPTOR_HEAP_FLAGS flags,
+		static void CreateDescriptorHeap(ID3D12Device* device, uint32_t numDescriptors, D3D12_DESCRIPTOR_HEAP_FLAGS flags,
 			D3D12_DESCRIPTOR_HEAP_TYPE type, ID3D12DescriptorHeap** descriptorHeap);
 
 		static void CreateStandardSamplerDescs(std::vector<D3D12_STATIC_SAMPLER_DESC>& samplerDescs);

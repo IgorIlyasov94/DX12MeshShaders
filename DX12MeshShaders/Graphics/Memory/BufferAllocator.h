@@ -18,21 +18,21 @@ namespace Memory
 		BufferAllocator() {};
 		~BufferAllocator() {};
 
-		void Allocate(ID3D12Device8* device, AllocationDesc& desc, BufferAllocation& allocation);
-		void AllocateCustomBuffer(ID3D12Device8* device, AllocationDesc& desc, BufferAllocation& allocation);
-		void AllocateUnorderedAccess(ID3D12Device8* device, AllocationDesc& desc, BufferAllocation& allocation);
-		void AllocateTemporary(ID3D12Device8* device, AllocationDesc& desc, BufferAllocation& allocation);
+		void Allocate(ID3D12Device* device, AllocationDesc& desc, BufferAllocation& allocation);
+		void AllocateCustomBuffer(ID3D12Device* device, AllocationDesc& desc, BufferAllocation& allocation);
+		void AllocateUnorderedAccess(ID3D12Device* device, AllocationDesc& desc, BufferAllocation& allocation);
+		void AllocateTemporary(ID3D12Device* device, AllocationDesc& desc, BufferAllocation& allocation);
 
 		void ReleaseTemporaryBuffers();
 
 	private:
 		using BufferAllocationPagePool = std::deque<std::shared_ptr<BufferAllocationPage>>;
 
-		void Allocate(ID3D12Device8* device, AllocationDesc& desc, bool unorderedAccess, bool isUniqueBuffer,
+		void Allocate(ID3D12Device* device, AllocationDesc& desc, bool unorderedAccess, bool isUniqueBuffer,
 			BufferAllocationPagePool& emptyPagePool, BufferAllocationPagePool& usedPagePool,
 			std::shared_ptr<BufferAllocationPage>& currentPage, BufferAllocation& allocation);
 
-		void SetNewPageAsCurrent(ID3D12Device8* device, D3D12_HEAP_TYPE heapType, bool unorderedAccess,
+		void SetNewPageAsCurrent(ID3D12Device* device, D3D12_HEAP_TYPE heapType, bool unorderedAccess,
 			BufferAllocationPagePool& emptyPagePool, BufferAllocationPagePool& usedPagePool,
 			std::shared_ptr<BufferAllocationPage>& currentPage);
 

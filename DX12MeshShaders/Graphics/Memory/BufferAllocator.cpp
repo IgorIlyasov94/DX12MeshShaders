@@ -1,6 +1,6 @@
 #include "BufferAllocator.h"
 
-void Memory::BufferAllocator::Allocate(ID3D12Device8* device, AllocationDesc& desc, BufferAllocation& allocation)
+void Memory::BufferAllocator::Allocate(ID3D12Device* device, AllocationDesc& desc, BufferAllocation& allocation)
 {
 	if (desc.size > pageSize)
 		throw std::exception("BufferAllocator::Allocate: Bad allocation");
@@ -11,7 +11,7 @@ void Memory::BufferAllocator::Allocate(ID3D12Device8* device, AllocationDesc& de
 		Allocate(device, desc, false, false, emptyUploadPages, usedUploadPages, currentUploadPage, allocation);
 }
 
-void Memory::BufferAllocator::AllocateCustomBuffer(ID3D12Device8* device, AllocationDesc& desc, BufferAllocation& allocation)
+void Memory::BufferAllocator::AllocateCustomBuffer(ID3D12Device* device, AllocationDesc& desc, BufferAllocation& allocation)
 {
 	if (desc.size > pageSize)
 		throw std::exception("BufferAllocator::AllocateCustomBuffer: Bad allocation");
@@ -21,7 +21,7 @@ void Memory::BufferAllocator::AllocateCustomBuffer(ID3D12Device8* device, Alloca
 	Allocate(device, desc, false, true, emptyCustomPages, usedCustomPages, currentCustomPage, allocation);
 }
 
-void Memory::BufferAllocator::AllocateUnorderedAccess(ID3D12Device8* device, AllocationDesc& desc, BufferAllocation& allocation)
+void Memory::BufferAllocator::AllocateUnorderedAccess(ID3D12Device* device, AllocationDesc& desc, BufferAllocation& allocation)
 {
 	if (desc.size > pageSize)
 		throw std::exception("BufferAllocator::AllocateUnorderedAccess: Bad allocation");
@@ -31,7 +31,7 @@ void Memory::BufferAllocator::AllocateUnorderedAccess(ID3D12Device8* device, All
 	Allocate(device, desc, true, true, emptyUnorderedPages, usedUnorderedPages, currentUnorderedPage, allocation);
 }
 
-void Memory::BufferAllocator::AllocateTemporary(ID3D12Device8* device, AllocationDesc& desc, BufferAllocation& allocation)
+void Memory::BufferAllocator::AllocateTemporary(ID3D12Device* device, AllocationDesc& desc, BufferAllocation& allocation)
 {
 	auto newPage = new BufferAllocationPage(device, desc.heapType, D3D12_RESOURCE_FLAG_NONE, desc.size);
 
@@ -45,7 +45,7 @@ void Memory::BufferAllocator::ReleaseTemporaryBuffers()
 	tempUploadPages.clear();
 }
 
-void Memory::BufferAllocator::Allocate(ID3D12Device8* device, AllocationDesc& desc, bool unorderedAccess, bool isUniqueBuffer,
+void Memory::BufferAllocator::Allocate(ID3D12Device* device, AllocationDesc& desc, bool unorderedAccess, bool isUniqueBuffer,
 	BufferAllocationPagePool& emptyPagePool, BufferAllocationPagePool& usedPagePool,
 	std::shared_ptr<BufferAllocationPage>& currentPage, BufferAllocation& allocation)
 {
@@ -55,7 +55,7 @@ void Memory::BufferAllocator::Allocate(ID3D12Device8* device, AllocationDesc& de
 	currentPage->Allocate(desc.size, desc.alignment, allocation);
 }
 
-void Memory::BufferAllocator::SetNewPageAsCurrent(ID3D12Device8* device, D3D12_HEAP_TYPE heapType,
+void Memory::BufferAllocator::SetNewPageAsCurrent(ID3D12Device* device, D3D12_HEAP_TYPE heapType,
 	bool unorderedAccess, BufferAllocationPagePool& emptyPagePool,
 	BufferAllocationPagePool& usedPagePool, std::shared_ptr<BufferAllocationPage>& currentPage)
 {

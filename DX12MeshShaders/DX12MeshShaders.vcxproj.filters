@@ -31,6 +31,21 @@
     <Filter Include="Файлы заголовков\Graphics\Memory\ResourceFactory">
       <UniqueIdentifier>{844443d1-b7f3-4ea7-be48-e3630f0045dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы ресурсов\Shaders">
+      <UniqueIdentifier>{cb8ea2f0-a7bf-4c5b-b8be-b5c990618013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Graphics\Assets">
+      <UniqueIdentifier>{c2b70f70-324b-48dd-998f-7a0be812e500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Graphics\Assets">
+      <UniqueIdentifier>{b765eadd-e718-4ed9-ba77-1d3376c22aa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Graphics\Assets\AssetsLoader">
+      <UniqueIdentifier>{6d5bbed0-65c1-4a7d-8c68-b94d6ab0c742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Graphics\Assets\AssetsLoader">
+      <UniqueIdentifier>{4811a887-01e1-41d7-8912-289079e0d262}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -101,6 +116,15 @@
     </ClCompile>
     <ClCompile Include="DX12MeshShaders.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Assets\Mesh.cpp">
+      <Filter>Исходные файлы\Graphics\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Assets\AssetsLoader\OBJLoader.cpp">
+      <Filter>Исходные файлы\Graphics\Assets\AssetsLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,5 +200,33 @@
     <ClInclude Include="Graphics\Memory\ResourceFactory\SwapChainBufferFactory.h">
       <Filter>Файлы заголовков\Graphics\Memory\ResourceFactory</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Assets\Mesh.h">
+      <Filter>Файлы заголовков\Graphics\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Assets\AssetsLoader\OBJLoader.h">
+      <Filter>Файлы заголовков\Graphics\Assets\AssetsLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Assets\AssetsLoader\IMeshLoader.h">
+      <Filter>Файлы заголовков\Graphics\Assets\AssetsLoader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\MeshShader.hlsl">
+      <Filter>Файлы ресурсов\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\PixelShader.hlsl">
+      <Filter>Файлы ресурсов\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\AmplificationShader.hlsl">
+      <Filter>Файлы ресурсов\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Header.hlsli">
+      <Filter>Файлы ресурсов\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

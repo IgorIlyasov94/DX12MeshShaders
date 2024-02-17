@@ -41,7 +41,7 @@ namespace Memory
 	class ResourceManager
 	{
 	public:
-		ResourceManager(ID3D12Device9* _device);
+		ResourceManager(ID3D12Device* _device);
 		~ResourceManager();
 
 		ResourceId CreateResource(ResourceType resourceType, const ResourceDesc& desc);
@@ -65,7 +65,7 @@ namespace Memory
 		void SetUAVBarrier(ID3D12GraphicsCommandList* _commandList, const ResourceId& resourceId);
 
 	private:
-		ID3D12Device9* device;
+		ID3D12Device* device;
 		ComPtr<ID3D12GraphicsCommandList> commandList;
 		ComPtr<ID3D12CommandAllocator> commandAllocator;
 		ComPtr<ID3D12CommandQueue> commandQueue;
